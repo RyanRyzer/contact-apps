@@ -19,20 +19,24 @@ class ContactApp extends React.Component {
    this.setState({ contacts });
  }
 
- onAddContactHandler({ name, tag }) {
-  this.setState((prevState) => {
-    return {
-      contacts: [
-        ...prevState.contacts,
-        {
-          id: +new Date(),
-          name,
-          tag,
-          imageUrl: '/images/default.jpg',
-        }
-      ]
-    }
-  });
+ onAddContactHandler({ name, tag, image }) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    this.setState((prevState) => {
+      return {
+        contacts: [
+          ...prevState.contacts,
+          {
+            id: +new Date(),
+            name,
+            tag,
+            imageUrl: e.target.result,
+          }
+        ]
+      }
+    });
+  };
+  reader.readAsDataURL(image);
 }
  
 render() {
